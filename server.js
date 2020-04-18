@@ -1,5 +1,7 @@
 require('dotenv').config();
 require('./lib/utils/connect')();
+require('https').globalAgent.options.ca = require('ssl-root-cas/latest').create();
+
 
 const app = require('./lib/app');
 
