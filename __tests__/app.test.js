@@ -1,13 +1,13 @@
 require('dotenv').config();
 
-// const request = require('supertest');
-// const app = require('../lib/app');
+const request = require('supertest');
+const app = require('../lib/app');
 const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 
 const DailyDetention = require('../lib/models/DailyDetention');
 
-describe('app routes', async() => {
+describe('app routes', () => {
   beforeAll(() => {
     connect();
   });
@@ -20,11 +20,12 @@ describe('app routes', async() => {
 
   beforeEach(async() => {
     detention = await DailyDetention.create({
-      bookingNumber: '12345678',
+      county: 'Multnomah',
+      dateAdded: '04/20/2020',
       bookingDate: '2019-11-17T10:12:00.000+00:00',
+      projectedReleaseDate:'2019-11-19T10:12:00.000+00:00',
+      bookingNumber: '12345678',
       swisId: '20208712',
-      arrestingAgency: 'Portland Police',
-      releaseDate:'2019-11-19T10:12:00.000+00:00',
       fullName: 'Eisley, Moss',
       age: '40',
       gender: 'any/all',
@@ -33,8 +34,18 @@ describe('app routes', async() => {
       weight: '258',
       hairColor: 'black',
       eyeColor: 'blue',
-      charges: [{
-        blank: 'ugh'
+      image: 'some image string',
+      arrestingAgency: 'PPB',
+      cases: [{
+        caseNumber: '12345',
+        daCaseNumber: 'ABCDEFG',
+        citationNumber: 'NA',
+        charges: [{
+          description: 'Arson',
+          category: 'Felony',
+          bail: '$0',
+          status: 'Released'
+        }]
       }]
     });
   });
@@ -42,5 +53,40 @@ describe('app routes', async() => {
 
   afterAll(() => {
     return mongoose.connection.close();
+  });
+
+
+  it('gets all detentions', async() => {
+    const detentions = await DailyDetention.create([
+      {
+        county: 'Multnomah',
+        dateAdded: '04/20/2020',
+        bookingDate: '2019-11-17T10:12:00.000+00:00',
+        projectedReleaseDate:'2019-11-19T10:12:00.000+00:00',
+        bookingNumber: '12345678',
+        swisId: '20208712',
+        fullName: 'Eisley, Yoda',
+        age: '20',
+        gender: 'they/them',
+      },
+      {
+        county: 'Clackamas',
+        dateAdded: '04/20/2020',
+        bookingDate: '2019-11-17T10:12:00.000+00:00',
+        projectedReleaseDate:'2019-11-19T10:12:00.000+00:00',
+        bookingNumber: '2345567',
+        swisId: '20208712',
+        fullName: 'Eisley, Fett',
+        age: '80',
+        gender: 'he/him',
+      },
+    ]);
+    return request(app)
+      .get('/api/v1/dailyDetentions')
+      .then(res => {
+        detentions.forEach(detention => {
+          expect(res.body).toContainEqual(JSON.parse(JSON.stringify(detention)));
+        });
+      });
   });
 });
