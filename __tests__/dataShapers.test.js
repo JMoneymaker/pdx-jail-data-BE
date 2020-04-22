@@ -17,6 +17,13 @@ describe('bail numifier', () => {
     expect(numifyBail(input)).toEqual(output);
   });
 
+  test.only('it returns a number if the value is a string with a ,', () => {
+    const input = '$2,500';
+    const output = 2500;
+
+    expect(numifyBail(input)).toEqual(output);
+  });
+
   test('it returns a number if the value is a string with $0', () => {
     const input = '$0';
     const output = 0;
