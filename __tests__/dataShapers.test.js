@@ -35,21 +35,21 @@ describe('bail numifier', () => {
 describe('date maker', () => {
   it('returns a date if the format is m/d/yy', () => {
     const input = '2/19/80';
-    const output = '1980-02-19T08:00:00.000Z';
+    const output = '1980-02-19T00:00:00.000Z';
 
     expect(makeDate(input)).toEqual(new Date(output));
   });
 
   it('returns a date if the format is mm/dd/yy', () => {
     const input = '02/19/80';
-    const output = '1980-02-19T08:00:00.000Z';
+    const output = '1980-02-19T00:00:00.000Z';
 
     expect(makeDate(input)).toEqual(new Date(output));
   });
 
   it('returns a date if the format is mm/dd/yyyy', () => {
     const input = '02/19/1980';
-    const output = '1980-02-19T08:00:00.000Z';
+    const output = '1980-02-19T00:00:00.000Z';
 
     expect(makeDate(input)).toEqual(new Date(output));
   });
