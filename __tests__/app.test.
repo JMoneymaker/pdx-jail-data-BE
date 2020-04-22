@@ -50,6 +50,7 @@ describe('app routes', () => {
     });
   });
   
+  console.log(detention);
 
   afterAll(() => {
     return mongoose.connection.close();
