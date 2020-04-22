@@ -43,7 +43,7 @@ describe('app routes', () => {
         charges: [{
           description: 'Arson',
           category: 'Felony',
-          bail: '$0',
+          bail: 0,
           status: 'Released'
         }]
       }]
