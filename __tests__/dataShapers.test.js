@@ -1,4 +1,4 @@
-const { makeDate, numifyBail, getAge } = require('../lib/utils/dataShapers.js');
+const { makeDate, numifyBail, getAge, makeDateWash } = require('../lib/utils/dataShapers.js');
 const moment = require('moment');
 moment().format();
 
@@ -17,7 +17,7 @@ describe('bail numifier', () => {
     expect(numifyBail(input)).toEqual(output);
   });
 
-  test.only('it returns a number if the value is a string with a ,', () => {
+  test('it returns a number if the value is a string with a ,', () => {
     const input = '$2,500';
     const output = 2500;
 
@@ -42,23 +42,37 @@ describe('bail numifier', () => {
 describe('date maker', () => {
   it('returns a date if the format is m/d/yy', () => {
     const input = '2/19/80';
-    const output = '1980-02-19T00:00:00.000Z';
+    const output = '1980-02-19T08:00:00.000Z';
 
     expect(makeDate(input)).toEqual(new Date(output));
   });
 
   it('returns a date if the format is mm/dd/yy', () => {
     const input = '02/19/80';
-    const output = '1980-02-19T00:00:00.000Z';
+    const output = '1980-02-19T08:00:00.000Z';
 
     expect(makeDate(input)).toEqual(new Date(output));
   });
 
   it('returns a date if the format is mm/dd/yyyy', () => {
     const input = '02/19/1980';
-    const output = '1980-02-19T00:00:00.000Z';
+    const output = '1980-02-19T08:00:00.000Z';
 
     expect(makeDate(input)).toEqual(new Date(output));
+  });
+
+  it('returns undefined if the date is an empty string', () => {
+    const input = ' ';
+    const output = undefined;
+
+    expect(makeDate(input)).toEqual(output);
+  });
+
+  it('returns undefined if the date is an empty string', () => {
+    const input = ' ';
+    const output = undefined;
+
+    expect(makeDateWash(input)).toEqual(output);
   });
 });
 
