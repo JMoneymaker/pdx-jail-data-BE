@@ -67,12 +67,21 @@ describe('date maker', () => {
 
     expect(makeDate(input)).toEqual(output);
   });
+});
 
+describe.only('washington date maker', () => {
   it('returns undefined if the date is an empty string', () => {
     const input = ' ';
     const output = undefined;
 
     expect(makeDateWash(input)).toEqual(output);
+  });
+
+  it('returns a date if the format is yyyy/mm/dd', () => {
+    const input = '1980/02/19';
+    const output = '1980-02-19T00:00:00.000Z';
+
+    expect(makeDateWash(input)).toEqual(new Date(output));
   });
 });
 
