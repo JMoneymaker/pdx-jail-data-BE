@@ -4,7 +4,6 @@ const mongod = new MongoMemoryServer();
 const mongoose = require('mongoose');
 const connect = require('../lib/utils/connect');
 
-
 const request = require('supertest');
 const app = require('../lib/app');
 
@@ -12,8 +11,7 @@ describe('app routes', () => {
   
   beforeAll(async() => {
     const uri = await mongod.getUri();
-    return connect(uri)
-    connect();
+    return connect(uri);
   });
 
   beforeEach(() => {
@@ -22,6 +20,10 @@ describe('app routes', () => {
 
   afterAll(() => {
     return mongoose.connection.close();
+  });
+
+  it('aggregates the gender counts for all counties', async() => {
+    return await request(app);
   });
 
 });
