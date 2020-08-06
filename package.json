@@ -23,6 +23,8 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
+    "bull": "^3.16.0",
+    "bull-board": "^0.9.0",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
