@@ -7,7 +7,10 @@ const {
   multParserQueue, 
   multReleaseQueriesQueue, 
   multReleaseScraperQueue, 
-  multReleaseParserQueue, 
+  multReleaseParserQueue,
+  multBookingQueriesQueue,
+  multBookingScraperQueue,
+  multBookingParserQueue, 
   washScraperQueue, 
   washParserQueue  
 } = require('./lib/jobs/queue.js');
@@ -24,6 +27,9 @@ Promise.all([
   multReleaseQueriesQueue.empty(), 
   multReleaseScraperQueue.empty(), 
   multReleaseParserQueue.empty(), 
+  multBookingQueriesQueue.empty(),
+  multBookingScraperQueue.empty(),
+  multBookingParserQueue.empty(),
   washScraperQueue.empty(),
   washParserQueue.empty()
 ])
@@ -33,6 +39,8 @@ Promise.all([
   .then(() => console.log('Multnomah County jobs added'))
   .then(() => multReleaseQueriesQueue.add({}))
   .then(() => console.log('Multnomah County Relaeases jobs added'))
+  .then(() => multBookingQueriesQueue.add({}))
+  .then(() => console.log('Multnomah County Bookings jobs added'))
   .then(() => Promise.all(washQueries.map(id => washScraperQueue.add({ id }))))
   .then(() => console.log('Washington County jobs added'))
   .catch(error => console.log('Error adding jobs', error))
@@ -45,7 +53,10 @@ Promise.all([
     multParserQueue.close(),
     multReleaseQueriesQueue.close(), 
     multReleaseScraperQueue.close(), 
-    multReleaseParserQueue.close(), 
+    multReleaseParserQueue.close(),
+    multBookingQueriesQueue.close(),
+    multBookingScraperQueue.close(),
+    multBookingParserQueue.close(), 
     washScraperQueue.close(),
     washParserQueue.close()
   ])));
