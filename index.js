@@ -41,7 +41,7 @@ Promise.all([
   .then(() => console.log('Multnomah County Relaeases jobs added'))
   .then(() => multBookingQueriesQueue.add({}, { repeat: { cron: '0 6 * * *' } }))
   .then(() => console.log('Multnomah County Bookings jobs added'))
-  .then(() => Promise.all(washQueries.map(id => washScraperQueue.add({ id }, { repeat: { cron: '0 6 * * *' } }))))
+  .then(() => Promise.all(washQueries.map(id => washScraperQueue.add({ id })), { repeat: { cron: '0 6 * * *' } }))
   .then(() => console.log('Washington County jobs added'))
   .catch(error => console.log('Error adding jobs', error))
   .finally(() => Promise.all(([
