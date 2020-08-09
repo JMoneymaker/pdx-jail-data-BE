@@ -10,12 +10,11 @@ const {
   multReleaseParserQueue,
   multBookingQueriesQueue,
   multBookingScraperQueue,
-  multBookingParserQueue, 
+  multBookingParserQueue,
+  washQueryQueue, 
   washScraperQueue, 
   washParserQueue  
 } = require('./lib/jobs/queue.js');
-
-const washQueries = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
 Promise.all([
   clackQueryQueue.empty(),
@@ -30,6 +29,7 @@ Promise.all([
   multBookingQueriesQueue.empty(),
   multBookingScraperQueue.empty(),
   multBookingParserQueue.empty(),
+  washQueryQueue.empty(),
   washScraperQueue.empty(),
   washParserQueue.empty()
 ])
@@ -41,7 +41,7 @@ Promise.all([
   .then(() => console.log('Multnomah County Relaeases jobs added'))
   .then(() => multBookingQueriesQueue.add({}, { repeat: { cron: '0 6 * * *' } }))
   .then(() => console.log('Multnomah County Bookings jobs added'))
-  .then(() => Promise.all(washQueries.map(id => washScraperQueue.add({ id }, { repeat: { cron: '0 6 * * *' } }))))
+  .then(() => washQueryQueue.add({}, { repeat: { cron: '0 6 * * *' } }))
   .then(() => console.log('Washington County jobs added'))
   .catch(error => console.log('Error adding jobs', error))
   .finally(() => Promise.all(([
@@ -57,6 +57,7 @@ Promise.all([
     multBookingQueriesQueue.close(),
     multBookingScraperQueue.close(),
     multBookingParserQueue.close(), 
+    washQueryQueue.close(),
     washScraperQueue.close(),
     washParserQueue.close()
   ])));
