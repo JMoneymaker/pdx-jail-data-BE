@@ -13,7 +13,8 @@ const {
   multBookingParserQueue,
   washQueryQueue, 
   washScraperQueue, 
-  washParserQueue  
+  washParserQueue,  
+  closeQueues
 } = require('./lib/jobs/queue.js');
 
 Promise.all([
@@ -57,23 +58,9 @@ Promise.all([
   .then(() => multBookingQueriesQueue.add({}, { repeat: { cron: '0 15 * * *' } }))
   .then(() => console.log('Multnomah County Bookings jobs added'))
   .catch(error => console.log('Error adding jobs', error))
-  .finally(() => Promise.all(([
-    clackQueryQueue.close(),
-    clackScraperQueue.close(),
-    clackParserQueue.close(),
-    multQueryQueue.close(),
-    multScraperQueue.close(),
-    multParserQueue.close(),
-    multReleaseQueriesQueue.close(), 
-    multReleaseScraperQueue.close(), 
-    multReleaseParserQueue.close(),
-    multBookingQueriesQueue.close(),
-    multBookingScraperQueue.close(),
-    multBookingParserQueue.close(), 
-    washQueryQueue.close(),
-    washScraperQueue.close(),
-    washParserQueue.close()
-  ])));
+  .finally(() => Promise.all(
+    closeQueues()
+  ));
 
 
 
